@@ -1,0 +1,5 @@
+# m h  dom mon dow   command
+00 1 * * * /etc/cron.daily/update-debian.sh
+30 1 * * * /etc/cron.daily/update-gravity.sh
+00 2 * * * /etc/cron.daily/update-pihole.sh
+00 3 * * 0 /etc/cron.weekly/update-pi-firmware.sh
