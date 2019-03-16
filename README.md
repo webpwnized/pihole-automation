@@ -1,5 +1,5 @@
 # pihole-automation
-Scripts to automate maintenance of Pi-Hole DNS server
+Scripts to automate maintenance of Pi-Hole DNS server. These scripts are run by cron. The exact time can be set up using the crontab program. A working example is provided in file *crontab*
 
 ## Daily updates
 - update-debian.sh: Updates the Debian operating system using apt
