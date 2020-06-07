@@ -16,7 +16,6 @@ https://blocklist.site/app/dl/tracking
 https://easylist-downloads.adblockplus.org/yt_annoyances_suggestions.txt
 https://easylist.to/easylist/easylist.txt
 https://easylist.to/easylist/easyprivacy.txt
-https://easylist.to/easylist/fanboy-annoyance.txt
 https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-blocklist.txt
 https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-malware.txt
 https://hostsfile.mine.nu/hosts0.txt
