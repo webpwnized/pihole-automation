@@ -21,7 +21,6 @@ https://v.firebog.net/hosts/static/w3kbl.txt
 https://v.firebog.net/hosts/BillStearns.txt
 https://v.firebog.net/hosts/Kowabit.txt
 https://www.dshield.org/feeds/suspiciousdomains_High.txt
-https://www.malwaredomainlist.com/hostslist/hosts.txt
 https://bitbucket.org/ethanr/dns-blacklists/raw/8575c9f96e5b4a1308f2f12394abd86d0927a4a0/bad_lists/Mandiant_APT1_Report_Appendix_D.txt
 https://v.firebog.net/hosts/Prigent-Malware.txt
 https://v.firebog.net/hosts/Prigent-Phishing.txt
@@ -59,7 +58,6 @@ https://blocklistproject.github.io/Lists/smart-tv.txt
 https://blocklistproject.github.io/Lists/torrent.txt
 https://blocklistproject.github.io/Lists/tracking.txt
 https://blocklistproject.github.io/Lists/vaping.txt
-https://dbl.oisd.nl/
 https://hostfiles.frogeye.fr/firstparty-trackers-hosts.txt
 https://hostfiles.frogeye.fr/multiparty-trackers-hosts.txt
 https://isc.sans.edu/feeds/suspiciousdomains_High.txt
@@ -79,7 +77,7 @@ https://raw.githubusercontent.com/PolishFiltersTeam/KADhosts/master/KADhosts.txt
 https://raw.githubusercontent.com/RooneyMcNibNug/pihole-stuff/master/SNAFU.txt
 https://raw.githubusercontent.com/Spam404/lists/master/main-blacklist.txt
 https://raw.githubusercontent.com/VeleSila/yhosts/master/hosts
-https://urlhaus.abuse.ch/downloads/hostfile/
+https://malware-filter.gitlab.io/malware-filter/urlhaus-filter-domains-online.txt
 https://v.firebog.net/hosts/Admiral.txt
 https://v.firebog.net/hosts/neohostsbasic.txt
 https://v.firebog.net/hosts/Prigent-Adult.txt
@@ -92,7 +90,6 @@ http://www.malwaredomainlist.com/hostslist/hosts.txt
 https://hosts.anudeep.me/mirror/adservers.txt
 https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&mimetype=plaintext&useip=0.0.0.0
 https://raw.githubusercontent.com/AdAway/adaway.github.io/master/hosts.txt
-https://raw.githubusercontent.com/AdguardTeam/cname-trackers/master/combined_disguised_trackers_justdomains.txt
 https://raw.githubusercontent.com/davidonzo/Threat-Intel/master/lists/latestdomains.piHole.txt
 https://raw.githubusercontent.com/MetaMask/eth-phishing-detect/master/src/hosts.txt
 https://raw.githubusercontent.com/mitchellkrogza/Badd-Boyz-Hosts/master/hosts
@@ -141,3 +138,4 @@ https://blocklistproject.github.io/Lists/alt-version/ransomware-nl.txt
 https://blocklistproject.github.io/Lists/alt-version/redirect-nl.txt
 https://blocklistproject.github.io/Lists/alt-version/scam-nl.txt
 https://blocklistproject.github.io/Lists/alt-version/tracking-nl.txt
+https://raw.githubusercontent.com/badmojr/1Hosts/refs/heads/master/Pro/hosts.txt
