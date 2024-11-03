@@ -18,7 +18,6 @@ https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV.txt
 https://raw.githubusercontent.com/chadmayfield/pihole-blocklists/master/lists/pi_blocklist_porn_top1m.list
 https://zerodot1.gitlab.io/CoinBlockerLists/hosts
 https://v.firebog.net/hosts/static/w3kbl.txt
-https://v.firebog.net/hosts/BillStearns.txt
 https://v.firebog.net/hosts/Kowabit.txt
 https://www.dshield.org/feeds/suspiciousdomains_High.txt
 https://bitbucket.org/ethanr/dns-blacklists/raw/8575c9f96e5b4a1308f2f12394abd86d0927a4a0/bad_lists/Mandiant_APT1_Report_Appendix_D.txt
@@ -116,8 +115,6 @@ https://s3.amazonaws.com/lists.disconnect.me/simple_tracking.txt
 https://raw.githubusercontent.com/craiu/mobiletrackers/master/windowslist.txt
 https://raw.githubusercontent.com/craiu/mobiletrackers/master/list.txt
 https://raw.githubusercontent.com/daylamtayari/Pi-Hole-Blocklist/master/Pi-Hole-Blocklist.txt
-https://raw.githubusercontent.com/Luois45/DNSBlocklists/auto-update/Suspicious.txt
-https://raw.githubusercontent.com/Luois45/DNSBlocklists/auto-update/Malicious.txt
 https://git.herrbischoff.com/trackers/plain/trackers.txt
 https://git.herrbischoff.com/trackers/plain/telemetry.txt
 https://git.herrbischoff.com/trackers/plain/reject.txt
