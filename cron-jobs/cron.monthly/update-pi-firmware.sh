@@ -21,9 +21,9 @@ echo "Raspberry Pi Firmware Update"
 echo "Start Date: $(date)"
 echo "=============================="
 
-# Perform the firmware update
+# Perform the firmware update with the -y flag to auto-confirm
 echo "Running rpi-update to update firmware..."
-if sudo rpi-update; then
+if sudo rpi-update -y; then
     echo "[$(date)] SUCCESS: Raspberry Pi firmware updated successfully."
 else
     echo "[$(date)] ERROR: Firmware update encountered an issue."
@@ -32,9 +32,6 @@ fi
 
 # Wait for a few seconds before rebooting
 sleep 3s
-
-# Confirmation prompt for reboot (uncomment if you want to confirm manually)
-# read -p "Firmware updated. Reboot now? (y/n): " confirm && [[ $confirm == [yY] ]] || exit 1
 
 # Log reboot message
 echo "[$(date)] Rebooting system to apply firmware update..." 
