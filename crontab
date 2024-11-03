@@ -1,32 +1,60 @@
-# Cron Schedule for Automatic Updates on Raspberry Pi
+# /etc/crontab: system-wide crontab
+# Unlike user-specific crontabs, you don’t need to run the `crontab` command to activate this file.
+# Simply save changes to /etc/crontab, and the system will apply them automatically.
+#
+# SHELL and PATH variables can be set here to define the environment for all cron jobs.
+# SHELL defines the shell used for each command, and PATH defines where to look for executable files.
 
-# Format of a cron job line:
-# m  h  dom  mon  dow  command
-# |  |   |    |    |     |
-# |  |   |    |    |     +-- Command or script to run
-# |  |   |    |    +-------- Day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
-# |  |   |    +------------- Month (1 = January, ..., 12 = December)
-# |  |   +------------------- Day of the month (1 to 31)
-# |  +----------------------- Hour (0 to 23)
-# +-------------------------- Minute (0 to 59)
+SHELL=/bin/sh
+# PATH defaults to the system's environment path, so it is commented here.
+# PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-# DAILY: Update Debian system packages at 1:00 AM every day.
-# Logs the output to /var/log/update-debian-cron.log.
-00 1 * * * /etc/cron.daily/update-debian.sh >> /var/log/update-debian-cron.log 2>&1
+# ===================================================================
+# DEFAULT SYSTEM-WIDE CRON JOBS
+# ===================================================================
 
-# DAILY: Update Pi-hole "gravity" (ad-blocking list) at 1:30 AM every day.
-# This updates the list of blocked domains in Pi-hole.
-# Logs the output to /var/log/update-gravity-cron.log.
-30 1 * * * /etc/cron.daily/update-gravity.sh >> /var/log/update-gravity-cron.log 2>&1
+# These are default jobs for periodic maintenance, managed by the `run-parts` command.
+# `run-parts` will execute every script in each specified directory (e.g., /etc/cron.daily) at the scheduled time.
 
-# DAILY: Update Pi-hole software (application update) at 2:00 AM every day.
-# This keeps the Pi-hole application itself up-to-date.
-# Logs the output to /var/log/update-pihole-cron.log.
-00 2 * * * /etc/cron.daily/update-pihole.sh >> /var/log/update-pihole-cron.log 2>&1
+# Run all scripts in /etc/cron.hourly every hour at the 17th minute.
+# These tasks handle tasks that need frequent execution, like log checks.
+17 * * * * root cd / && run-parts --report /etc/cron.hourly
 
-# MONTHLY: Update Raspberry Pi firmware at 3:00 AM on the 1st day of each month.
-# This installs any firmware updates, which may contain hardware compatibility and
-# performance improvements. Note that firmware doesn’t need frequent updates, so 
-# it’s scheduled monthly instead of weekly.
-# Logs the output to /var/log/update-pi-firmware-cron.log.
-00 3 1 * * /etc/cron.monthly/update-pi-firmware.sh >> /var/log/update-pi-firmware-cron.log 2>&1
+# Run all scripts in /etc/cron.daily at 6:25 AM daily.
+# These tasks include system maintenance like updating package metadata, log rotation, etc.
+25 6 * * * root test -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.daily; }
+
+# Run all scripts in /etc/cron.weekly at 6:47 AM every Sunday.
+# Weekly tasks usually include deeper cleanups or more extensive maintenance tasks.
+47 6 * * 7 root test -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.weekly; }
+
+# Run all scripts in /etc/cron.monthly at 6:52 AM on the 1st of each month.
+# Monthly tasks might involve data archival, database cleanups, and other infrequent maintenance.
+52 6 1 * * root test -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.monthly; }
+
+# ===================================================================
+# CUSTOM SCHEDULED TASKS FOR PI-HOLE AND SYSTEM UPDATES
+# ===================================================================
+# These custom tasks are stored in /etc/cron.custom to avoid being triggered by default cron intervals.
+# Each job has its own schedule and dedicated log file for easier management and troubleshooting.
+
+# 1. Update Debian packages at 2:00 AM daily
+# This task updates system packages to keep Debian up-to-date.
+# Logs output to /var/log/update-debian-cron.log
+0 2 * * * root /etc/cron.custom/update-debian.sh >> /var/log/update-debian-cron.log 2>&1
+
+# 2. Update Pi-hole gravity (ad-blocking list) at 3:00 AM daily
+# This task refreshes the Pi-hole blocklists to maintain ad-blocking effectiveness.
+# Logs output to /var/log/update-gravity-cron.log
+0 3 * * * root /etc/cron.custom/update-gravity.sh >> /var/log/update-gravity-cron.log 2>&1
+
+# 3. Update Pi-hole software at 4:00 AM daily
+# This task updates the Pi-hole software to the latest version.
+# Logs output to /var/log/update-pihole-cron.log
+0 4 * * * root /etc/cron.custom/update-pihole.sh >> /var/log/update-pihole-cron.log 2>&1
+
+# 4. Update Raspberry Pi firmware at 5:00 AM on the 1st of each month
+# This task checks for and installs firmware updates, ensuring hardware compatibility.
+# Logs output to /var/log/update-pi-firmware-cron.log
+0 5 1 * * root /etc/cron.custom/update-pi-firmware.sh >> /var/log/update-pi-firmware-cron.log 2>&1
+
