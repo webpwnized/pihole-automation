@@ -134,3 +134,4 @@ https://blocklistproject.github.io/Lists/alt-version/redirect-nl.txt
 https://blocklistproject.github.io/Lists/alt-version/scam-nl.txt
 https://blocklistproject.github.io/Lists/alt-version/tracking-nl.txt
 https://raw.githubusercontent.com/badmojr/1Hosts/refs/heads/master/Pro/hosts.txt
+https://big.oisd.nl
