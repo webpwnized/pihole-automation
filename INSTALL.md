@@ -16,7 +16,7 @@ Before setting up this project, ensure you have the following:
 1. Open a terminal on your Raspberry Pi.
 2. Clone the repository from GitHub to download all scripts and files:
    ```bash
-   git clone https://github.com/yourusername/pihole-automation.git
+   git clone https://github.com/webpwnized/pihole-automation.git
    cd pihole-automation
    ```
 
