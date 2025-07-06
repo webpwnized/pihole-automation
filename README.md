@@ -1,80 +1,99 @@
-
 # Pi-hole Automation
 
-**Pi-hole Automation** is a collection of scripts designed to automate maintenance tasks for a Pi-hole DNS server and its underlying Raspberry Pi operating system. These scripts are scheduled with `cron` to ensure that the Pi-hole instance and the system are always up-to-date and performing optimally.
+**Pi-hole Automation** is a collection of scripts to automate maintenance tasks for a Pi-hole DNS server and its underlying Raspberry Pi OS (Debian) system. These scripts run via `cron` to keep your Pi-hole and operating system secure, updated, and stable.
 
 ## Project Structure
 
-- **cron-jobs/cron.custom/**: Contains custom cron job scripts for different maintenance tasks, including Debian updates, Pi-hole gravity updates, Pi-hole software updates, and Raspberry Pi firmware updates.
-- **crontab**: A sample crontab configuration file, defining specific times for each maintenance task.
-- **lists.txt**: A list of URLs to popular blocklists that can be imported into Pi-hole, providing a baseline for ad-blocking and privacy protection.
+- `cron-jobs/cron.custom/` — Contains the update scripts for Debian, Pi-hole gravity, Pi-hole core, and Raspberry Pi firmware.
+- `lists.txt` — Popular blocklist URLs you can import into Pi-hole.
+- `install.sh` — Sets up the automation: installs scripts, cron job, and logrotate.
+- `status.sh` — Shows system version, Pi-hole version, and recent log output.
+- `uninstall.sh` — Removes the installed scripts, cron job, and logrotate config.
 
 ## Scripts
 
-The following scripts are included in the `cron-jobs/cron.custom/` directory and are intended to be scheduled with cron for automated execution.
+These scripts live in `cron-jobs/cron.custom/` and get installed to `/usr/local/bin/`.
 
 ### Daily Updates
 
-These scripts perform daily maintenance to ensure Pi-hole and the underlying system are up-to-date.
-
-- **`update-debian.sh`**: Updates the Debian operating system on the Raspberry Pi using `apt`. This includes fetching and applying package updates for system stability and security.
-- **`update-gravity.sh`**: Updates Pi-hole’s gravity list, which refreshes the blocklists used to block ads and trackers, keeping them current.
-- **`update-pihole.sh`**: Updates the Pi-hole software itself, ensuring the latest features and security patches are applied.
+- `update-debian.sh` — Runs `apt update` and `apt full-upgrade` to keep Debian packages secure.
+- `update-gravity.sh` — Refreshes Pi-hole’s gravity list to update ad/tracker blocklists.
+- `update-pihole.sh` — Updates Pi-hole core software for security patches and improvements.
 
 ### Monthly Updates
 
-This script performs a less frequent, but essential, update to the Raspberry Pi’s firmware.
-
-- **`update-pi-firmware.sh`**: Updates the Raspberry Pi firmware using `rpi-update`, which may include performance enhancements and hardware compatibility improvements. This script is scheduled to run monthly to keep the firmware up-to-date without risking frequent interruptions.
+- `update-pi-firmware.sh` — Updates the Raspberry Pi kernel and bootloader EEPROM using safe `apt` and `rpi-eeprom-update` (only when supported). Runs monthly to keep the firmware up-to-date without unnecessary risk.
 
 ## Usage
 
-### Setting Up the Cron Jobs
+### Install
 
-1. **Move Scripts to Custom Directory**:
-   Place the scripts in `/etc/cron.custom/` to prevent them from being run by default cron directories (e.g., `/etc/cron.daily`). This allows for precise scheduling.
+Clone and run the installer:
 
-   ```bash
-   sudo mkdir -p /etc/cron.custom
-   sudo cp cron-jobs/cron.custom/* /etc/cron.custom/
-   sudo chmod +x /etc/cron.custom/*.sh
-   ```
+    git clone https://github.com/webpwnized/pihole-automation.git
+    cd pihole-automation
+    chmod +x install.sh
+    ./install.sh
 
-2. **Configure the Crontab**:
-   Use the provided `crontab` file as a template to schedule each script at the specified times. Open the root crontab and add entries for each script.
+The installer:
+- Copies all update scripts to `/usr/local/bin/`
+- Installs `/etc/cron.d/pihole-automation` for precise scheduling
+- Creates log files in `/var/log/`
+- Installs a logrotate config to manage log size
+- Verifies that `cron` is enabled and running
 
-   ```bash
-   sudo crontab -e
-   ```
+### Cron Schedule
 
-   Then, add the contents of the provided `crontab` file to set the desired schedule.
+The installer writes a cron schedule to `/etc/cron.d/pihole-automation`:
 
-### Example Crontab Schedule
+| Task | Schedule |
+|------------------------|------------------------|
+| Debian updates | Daily at 04:00 AM |
+| Gravity updates | Daily at 05:00 AM |
+| Pi-hole software update | Daily at 06:00 AM |
+| Firmware update | Monthly at 07:00 AM on the 1st |
 
-The `crontab` file schedules each script with specific times for daily and monthly tasks:
-- **Debian updates**: 2:00 AM daily
-- **Pi-hole gravity updates**: 3:00 AM daily
-- **Pi-hole software updates**: 4:00 AM daily
-- **Raspberry Pi firmware updates**: 5:00 AM on the 1st of each month
+### Import Blocklists
 
-This configuration ensures the Pi-hole instance and Raspberry Pi are maintained without interfering with each other or other system tasks.
-
-### Importing Blocklists
-
-The `lists.txt` file includes popular URLs for blocklists that can be imported into Pi-hole. To use these blocklists:
-1. Open the Pi-hole web interface.
+The `lists.txt` file contains popular blocklist URLs.  
+To use them:
+1. Open the Pi-hole web admin interface.
 2. Go to **Group Management > Adlists**.
-3. Copy the URLs from `lists.txt` and paste them into the Adlists section.
+3. Copy the URLs from `lists.txt` and paste them in.
 
-## Logs
+### Check Status
 
-Each script logs its output to a unique file in `/var/log/`, making it easy to review and troubleshoot:
-- **Debian update log**: `/var/log/update-debian-cron.log`
-- **Gravity update log**: `/var/log/update-gravity-cron.log`
-- **Pi-hole update log**: `/var/log/update-pihole-cron.log`
-- **Firmware update log**: `/var/log/update-pi-firmware-cron.log`
+Run the `status.sh` script to see:
+- Kernel version
+- EEPROM bootloader version (if applicable)
+- Pi-hole version
+- Recent lines from each update log
 
-Check these logs periodically to verify that each task completes successfully.
+    ./status.sh
+
+### Logs
+
+Each script writes to its own log in `/var/log/`:
+
+- `/var/log/update-debian.log`
+- `/var/log/update-gravity.log`
+- `/var/log/update-pihole.log`
+- `/var/log/update-pi-firmware.log`
+
+Logs are rotated weekly by `logrotate`.
+
+## Uninstall
+
+Run `uninstall.sh` to remove:
+- `/usr/local/bin/update-*.sh` scripts
+- `/etc/cron.d/pihole-automation`
+- `/etc/logrotate.d/pihole-automation`
+
+Example:
+
+    ./uninstall.sh
+
+The logs in `/var/log/` remain for your records — remove them manually if needed.
 
 ## License
 
