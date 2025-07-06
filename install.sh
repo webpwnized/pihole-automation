@@ -3,59 +3,91 @@
 set -euo pipefail
 
 # ===========
-# Pi-hole Automation Installer
-# Secure install script for Raspberry Pi
+# Pi-hole Automation Installer (Hardened, Plain)
+# ===========
+# Assumes you run it INSIDE a valid cloned repo
 # ===========
 
 # CONFIG
-REPO_URL="https://github.com/webpwnized/pihole-automation.git"
-INSTALL_DIR="$HOME/pihole-automation"
-SCRIPT_SOURCE_DIR="$INSTALL_DIR/cron-jobs/cron.custom"
+SCRIPT_SOURCE_DIR="./cron-jobs/cron.custom"
 CRON_DIR="/etc/cron.custom"
 LOGROTATE_CONF="/etc/logrotate.d/pihole-automation"
 
-# 1. Clone or update repo
-echo "[INFO] Cloning or updating repository..."
-if [ -d "$INSTALL_DIR/.git" ]; then
-  echo "[INFO] Repo exists. Pulling latest..."
-  git -C "$INSTALL_DIR" pull
-else
-  echo "[INFO] Cloning fresh..."
-  git clone "$REPO_URL" "$INSTALL_DIR"
+info() {
+  echo "INFO: $*"
+}
+
+error_exit() {
+  echo "ERROR: $*" >&2
+  exit 1
+}
+
+# ===========
+# 1. Pre-checks
+# ===========
+
+info "Starting Pi-hole Automation Installer"
+
+if [ "$EUID" -eq 0 ]; then
+  error_exit "Do not run this script directly as root. Use a normal user with sudo."
 fi
 
-# 2. Ensure Pi-hole is installed
-echo "[INFO] Checking for Pi-hole installation..."
+if ! command -v sudo >/dev/null 2>&1; then
+  error_exit "sudo is required but not installed."
+fi
+
+if [ ! -d "$SCRIPT_SOURCE_DIR" ]; then
+  error_exit "Source directory '$SCRIPT_SOURCE_DIR' does not exist. Are you in the correct repo?"
+fi
+
+sh_files=$(ls "$SCRIPT_SOURCE_DIR"/update-*.sh 2>/dev/null || true)
+if [ -z "$sh_files" ]; then
+  error_exit "No update-*.sh files found in '$SCRIPT_SOURCE_DIR'."
+fi
+
+# ===========
+# 2. Pi-hole check
+# ===========
+
 if ! command -v pihole >/dev/null 2>&1; then
-  echo "[INFO] Pi-hole not found. Installing..."
-  curl -sSL https://install.pi-hole.net | bash
+  info "Pi-hole not found. Installing..."
+  curl -sSL https://install.pi-hole.net | bash || error_exit "Pi-hole install failed."
 else
-  echo "[INFO] Pi-hole found."
+  info "Pi-hole is installed."
 fi
 
-# 3. Create cron.custom directory
-echo "[INFO] Creating custom cron directory..."
-sudo mkdir -p "$CRON_DIR"
+# ===========
+# 3. Install cron jobs
+# ===========
 
-echo "[INFO] Copying update scripts..."
-sudo cp "$SCRIPT_SOURCE_DIR"/update-*.sh "$CRON_DIR"
+info "Creating cron directory at '$CRON_DIR'"
+sudo mkdir -p "$CRON_DIR" || error_exit "Could not create cron directory"
 
-echo "[INFO] Making scripts executable..."
-sudo chmod +x "$CRON_DIR"/update-*.sh
+info "Copying update scripts"
+sudo cp "$SCRIPT_SOURCE_DIR"/update-*.sh "$CRON_DIR" || error_exit "Could not copy scripts"
 
-# 4. Create logs and set permissions
-echo "[INFO] Ensuring log files exist..."
-sudo touch /var/log/update-pihole.log
-sudo touch /var/log/update-gravity.log
-sudo touch /var/log/update-debian.log
-sudo touch /var/log/update-pi-firmware.log
+info "Making scripts executable"
+sudo chmod +x "$CRON_DIR"/update-*.sh || error_exit "Could not make scripts executable"
 
-echo "[INFO] Setting permissions for log files..."
-sudo chown root:adm /var/log/update-*.log
-sudo chmod 640 /var/log/update-*.log
+# ===========
+# 4. Setup logs
+# ===========
 
+info "Creating log files"
+for log in /var/log/update-pihole.log \
+           /var/log/update-gravity.log \
+           /var/log/update-debian.log \
+           /var/log/update-pi-firmware.log; do
+  sudo touch "$log" || error_exit "Could not create $log"
+  sudo chown root:adm "$log" || error_exit "Could not set owner on $log"
+  sudo chmod 640 "$log" || error_exit "Could not set permissions on $log"
+done
+
+# ===========
 # 5. Setup logrotate
-echo "[INFO] Configuring logrotate..."
+# ===========
+
+info "Writing logrotate config to '$LOGROTATE_CONF'"
 sudo tee "$LOGROTATE_CONF" >/dev/null <<EOF
 /var/log/update-*.log {
     weekly
@@ -67,9 +99,16 @@ sudo tee "$LOGROTATE_CONF" >/dev/null <<EOF
 }
 EOF
 
-# 6. Ensure cron service is running
-echo "[INFO] Checking cron service..."
-sudo systemctl enable cron
-sudo systemctl restart cron
+# ===========
+# 6. Ensure cron is installed and running
+# ===========
 
-echo "[INFO] Installation complete. Pi-hole Automation is installed and cron jobs are ready."
+if ! command -v cron >/dev/null 2>&1 && ! systemctl list-units --type=service | grep -q cron; then
+  error_exit "Cron is not installed on this system. Please install cron first."
+fi
+
+info "Enabling and restarting cron service"
+sudo systemctl enable cron || error_exit "Could not enable cron service"
+sudo systemctl restart cron || error_exit "Could not restart cron service"
+
+info "Pi-hole Automation install completed successfully"
