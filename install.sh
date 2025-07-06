@@ -10,6 +10,7 @@ set -euo pipefail
 # CONFIG
 REPO_URL="https://github.com/webpwnized/pihole-automation.git"
 INSTALL_DIR="$HOME/pihole-automation"
+SCRIPT_SOURCE_DIR="$INSTALL_DIR/cron-jobs/cron.custom"
 CRON_DIR="/etc/cron.custom"
 LOGROTATE_CONF="/etc/logrotate.d/pihole-automation"
 
@@ -37,7 +38,7 @@ echo "[INFO] Creating custom cron directory..."
 sudo mkdir -p "$CRON_DIR"
 
 echo "[INFO] Copying update scripts..."
-sudo cp "$INSTALL_DIR"/update-*.sh "$CRON_DIR"
+sudo cp "$SCRIPT_SOURCE_DIR"/update-*.sh "$CRON_DIR"
 
 echo "[INFO] Making scripts executable..."
 sudo chmod +x "$CRON_DIR"/update-*.sh
