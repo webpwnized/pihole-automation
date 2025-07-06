@@ -1,40 +1,31 @@
 #!/bin/bash
 
-# Define log file path
 LOG_FILE="/var/log/update-pi-firmware.log"
-
-# Redirect stdout and stderr to the log file, with real-time feedback
 exec > >(tee -a "$LOG_FILE") 2>&1
 
-# Function to log errors and exit if firmware update fails
-log_error() {
-    echo "[$(date)] ERROR: Raspberry Pi firmware update failed on line $1. Check the log for details."
-    exit 1
+log() {
+  echo "[$(date)] $*"
 }
 
-# Trap any errors and call log_error function
+log_error() {
+  log "ERROR: Firmware update failed on line $1."
+  exit 1
+}
+
 trap 'log_error $LINENO' ERR
 
-# Log header
-echo "=============================="
-echo "Raspberry Pi Firmware Update"
-echo "Start Date: $(date)"
-echo "=============================="
+log "=============================="
+log "Raspberry Pi Firmware Update"
+log "=============================="
 
-# Perform the firmware update using yes to auto-confirm prompts
-echo "Running rpi-update to update firmware..."
-if yes | sudo rpi-update; then
-    echo "[$(date)] SUCCESS: Raspberry Pi firmware updated successfully."
-else
-    echo "[$(date)] ERROR: Firmware update encountered an issue."
-    exit 1
-fi
+log "Updating Raspberry Pi firmware using apt..."
+sudo apt update
+sudo apt full-upgrade -y
+sudo rpi-eeprom-update -a
 
-# Wait for a few seconds before rebooting
-sleep 3s
+log "SUCCESS: Firmware packages updated. A reboot may be required."
 
-# Log reboot message
-echo "[$(date)] Rebooting system to apply firmware update..." 
-
-# Reboot the system
-sudo reboot
+log "=============================="
+log "Update Finished"
+log "End Date: $(date)"
+log "=============================="
