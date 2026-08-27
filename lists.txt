@@ -8,18 +8,14 @@ https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt
 https://v.firebog.net/hosts/Easylist.txt
 https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts;showintro=0
 https://raw.githubusercontent.com/StevenBlack/hosts/master/data/UncheckyAds/hosts
-https://v.firebog.net/hosts/Easyprivacy.txt
-https://v.firebog.net/hosts/Prigent-Ads.txt
 https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-blocklist.txt
 https://raw.githubusercontent.com/StevenBlack/hosts/master/data/add.2o7Net/hosts
 https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt
 https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/android-tracking.txt
 https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV.txt
 https://raw.githubusercontent.com/chadmayfield/pihole-blocklists/master/lists/pi_blocklist_porn_top1m.list
-https://zerodot1.gitlab.io/CoinBlockerLists/hosts
 https://v.firebog.net/hosts/static/w3kbl.txt
 https://v.firebog.net/hosts/Kowabit.txt
-https://www.dshield.org/feeds/suspiciousdomains_High.txt
 https://bitbucket.org/ethanr/dns-blacklists/raw/8575c9f96e5b4a1308f2f12394abd86d0927a4a0/bad_lists/Mandiant_APT1_Report_Appendix_D.txt
 https://v.firebog.net/hosts/Prigent-Malware.txt
 https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-malware.txt
@@ -27,8 +23,6 @@ https://raw.githubusercontent.com/StevenBlack/hosts/master/data/add.Risk/hosts
 https://raw.githubusercontent.com/HorusTeknoloji/TR-PhishingList/master/url-lists.txt
 https://reddestdream.github.io/Projects/MinimalHosts/etc/MinimalHostsBlocker/minimalhosts
 https://raw.githubusercontent.com/StevenBlack/hosts/master/data/KADhosts/hosts
-https://www.dshield.org/feeds/suspiciousdomains_Low.txt
-https://www.dshield.org/feeds/suspiciousdomains_Medium.txt
 https://www.joewein.net/dl/bl/dom-bl-base.txt
 https://hostsfile.org/Downloads/hosts.txt
 https://someonewhocares.org/hosts/zero/hosts
@@ -57,8 +51,6 @@ https://blocklistproject.github.io/Lists/tracking.txt
 https://blocklistproject.github.io/Lists/vaping.txt
 https://hostfiles.frogeye.fr/firstparty-trackers-hosts.txt
 https://hostfiles.frogeye.fr/multiparty-trackers-hosts.txt
-https://isc.sans.edu/feeds/suspiciousdomains_High.txt
-https://osint.digitalside.it/Threat-Intel/lists/latestdomains.txt
 https://paulgb.github.io/BarbBlock/blacklists/hosts-file.txt
 https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext
 https://raw.githubusercontent.com/bigdargon/hostsVN/master/hosts
@@ -82,8 +74,6 @@ https://v.firebog.net/hosts/Prigent-Crypto.txt
 https://winhelp2002.mvps.org/hosts.txt
 https://www.github.developerdan.com/hosts/lists/ads-and-tracking-extended.txt
 https://www.github.developerdan.com/hosts/lists/dating-services-extended.txt
-https://zerodot1.gitlab.io/CoinBlockerLists/hosts_browser
-http://www.malwaredomainlist.com/hostslist/hosts.txt
 https://hosts.anudeep.me/mirror/adservers.txt
 https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&mimetype=plaintext&useip=0.0.0.0
 https://raw.githubusercontent.com/AdAway/adaway.github.io/master/hosts.txt
@@ -113,9 +103,6 @@ https://s3.amazonaws.com/lists.disconnect.me/simple_tracking.txt
 https://raw.githubusercontent.com/craiu/mobiletrackers/master/windowslist.txt
 https://raw.githubusercontent.com/craiu/mobiletrackers/master/list.txt
 https://raw.githubusercontent.com/daylamtayari/Pi-Hole-Blocklist/master/Pi-Hole-Blocklist.txt
-https://git.herrbischoff.com/trackers/plain/trackers.txt
-https://git.herrbischoff.com/trackers/plain/telemetry.txt
-https://git.herrbischoff.com/trackers/plain/reject.txt
 https://raw.githubusercontent.com/muhrizki1996/PiHole-AdBlocker-List/master/hosts.txt
 https://blocklistproject.github.io/Lists/alt-version/smart-tv-nl.txt
 https://blocklistproject.github.io/Lists/alt-version/vaping-nl.txt
@@ -133,4 +120,3 @@ https://blocklistproject.github.io/Lists/alt-version/ransomware-nl.txt
 https://blocklistproject.github.io/Lists/alt-version/redirect-nl.txt
 https://blocklistproject.github.io/Lists/alt-version/scam-nl.txt
 https://blocklistproject.github.io/Lists/alt-version/tracking-nl.txt
-https://raw.githubusercontent.com/badmojr/1Hosts/refs/heads/master/Pro/hosts.txt
